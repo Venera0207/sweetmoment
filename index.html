@@ -1,11 +1,29 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SweetMoment — домашняя кондитерская · свежие десерты каждый день</title>
 <meta name="description" content="Домашняя кондитерская SweetMoment: торты на заказ, медовик, эклеры, макаронс и капкейки. Свежая выпечка каждое утро, доставка за 90 минут.">
-<link rel="icon" href="image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23C68A43'/%3E%3Ctext x='32' y='42' font-size='30' text-anchor='middle' fill='%23FFFDF8' font-family='Georgia,serif' font-weight='bold'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="photos/logo.png">
+<!--
+  ============================================================
+  ВЕРСИЯ С РЕАЛЬНЫМИ ФОТОГРАФИЯМИ (index-photos.html)
+  Все картинки берутся из папки photos/ рядом с этим файлом.
+  Положите туда 17 файлов:
+    hero.jpg            — главный экран
+    croissant.jpg       — «полароид» на главном экране
+    medovik-1/2/3.jpg   — медовик: общий вид / разрез / подача
+    truffle-1/2/3.jpg   — шоколадный трюфель
+    cupcakes-1/2/3.jpg  — капкейки
+    eclairs-1/2/3.jpg   — эклеры
+    macarons-1/2/3.jpg  — макаронс
+  Если файла нет — вместо него появится аккуратная фирменная
+  заглушка, битых картинок не будет.
+  Единственный внешний ресурс — Google Fonts (оффлайн
+  подхватятся системные шрифты, сайт продолжит работать).
+  ============================================================
+-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&family=Manrope:wght@300;400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
@@ -14,6 +32,7 @@
 /* ============================================================
    SweetMoment · единый файл: HTML + CSS + JS
    Палитра: сливки / карамель / шоколад + ягодный акцент
+   Фото — из папки photos/ (см. комментарий выше)
    ============================================================ */
 :root{
   --milk:#FFFDF8;
@@ -33,7 +52,7 @@
 html{scroll-behavior:smooth}
 html.locked{overflow:hidden}
 body{background:var(--milk);color:var(--cocoa-800);font-family:var(--font-body);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.55}
-img{display:block;max-width:100%}
+img,svg{display:block;max-width:100%}
 button{font:inherit;cursor:pointer;background:none;border:none;color:inherit}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--caramel-300);color:var(--cocoa-900)}
@@ -44,9 +63,9 @@ section[id],footer[id]{scroll-margin-top:86px}
 ::-webkit-scrollbar-thumb{background:var(--cream-300);border-radius:8px;border:3px solid var(--milk)}
 ::-webkit-scrollbar-thumb:hover{background:var(--caramel-400)}
 
-/* плёночное зерно поверх страницы */
+/* плёночное зерно поверх страницы (встроенный SVG-шум) */
 body::after{content:"";position:fixed;inset:0;z-index:96;pointer-events:none;opacity:.045;
-  background-image:url("image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 .container{max-width:1200px;margin:0 auto;padding:0 20px}
 .eyebrow{display:flex;align-items:center;gap:12px;font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel-600)}
@@ -66,8 +85,6 @@ body::after{content:"";position:fixed;inset:0;z-index:96;pointer-events:none;opa
 
 /* ---------- Scroll-reveal ---------- */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,.61,.36,1);will-change:opacity,transform}
-.reveal-left{transform:translateX(-36px)}
-.reveal-right{transform:translateX(36px)}
 .reveal-scale{transform:scale(.94)}
 .reveal-none{transform:none}
 .reveal.revealed{opacity:1;transform:none}
@@ -174,8 +191,8 @@ body::after{content:"";position:fixed;inset:0;z-index:96;pointer-events:none;opa
 .hero-ring{position:absolute;top:-42px;left:-30px;width:140px;height:140px;color:rgba(213,162,92,.7);z-index:1}
 @media(min-width:768px){.hero-ring{width:175px;height:175px}}
 .hero-photo{position:relative;border-radius:28px;overflow:hidden;box-shadow:var(--shadow-lift);border:1px solid rgba(37,21,10,.05)}
-.hero-photo .kb{aspect-ratio:5/4;overflow:hidden}
-.hero-photo img{width:100%;height:100%;object-fit:cover}
+.hero-photo .kb{aspect-ratio:5/4;overflow:hidden;background:#F6E7CE}
+.hero-photo .kb>img{width:100%;height:100%;object-fit:cover}
 .hero-card{position:absolute;left:10px;top:34px;display:flex;align-items:center;gap:12px;background:var(--milk);border:1px solid var(--cream-200);border-radius:14px;padding:12px 20px 12px 12px;box-shadow:var(--shadow-lift);z-index:2}
 @media(min-width:768px){.hero-card{left:-34px}}
 .hero-card-ico{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:rgba(217,107,74,.15);color:var(--berry-soft)}
@@ -183,8 +200,8 @@ body::after{content:"";position:fixed;inset:0;z-index:96;pointer-events:none;opa
 .hero-card b{font-size:.86rem;color:var(--cocoa-800)}
 .hero-polaroid{position:absolute;right:6px;bottom:-26px;width:132px;background:var(--milk);border:1px solid var(--cream-200);border-radius:14px;padding:8px 8px 10px;box-shadow:var(--shadow-lift);z-index:2}
 @media(min-width:768px){.hero-polaroid{right:-26px;width:176px}}
-.hero-polaroid .kb{aspect-ratio:1;border-radius:9px;overflow:hidden}
-.hero-polaroid img{width:100%;height:100%;object-fit:cover}
+.hero-polaroid .kb{aspect-ratio:1;border-radius:9px;overflow:hidden;background:#F6E7CE}
+.hero-polaroid .kb>img{width:100%;height:100%;object-fit:cover}
 .hero-polaroid p{margin-top:7px;text-align:center;font-size:11px;font-weight:600;color:var(--cocoa-600)}
 
 /* бегущая строка */
@@ -529,15 +546,14 @@ body.cart-open .drawer{transform:none}
       </dl>
     </div>
 
-    <!-- коллаж -->
+    <!-- коллаж: фото из photos/hero.jpg и photos/croissant.jpg -->
     <div class="hero-visual reveal reveal-scale" data-reveal-delay="150">
       <svg class="hero-ring animate-spin-slow" viewBox="0 0 100 100" fill="none" aria-hidden="true">
         <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2" stroke-dasharray="6 8" stroke-linecap="round"/>
       </svg>
       <figure class="hero-photo">
         <div class="kb">
-          <img class="kenburns" src="https://image.qwenlm.ai/generated-images/cdd79494-2711-43df-8c8b-cf8b6f41f257/_result.png"
-               data-fallback="https://image.qwenlm.ai/generated-images/521cf289-e73d-44be-8203-bad0d98de36f/_result.png"
+          <img class="kenburns" src="photos/hero.jpg" data-ph="SweetMoment"
                alt="Праздничный стол кондитерской: сливочный торт, макаронс и эклеры" fetchpriority="high">
         </div>
       </figure>
@@ -549,9 +565,8 @@ body.cart-open .drawer{transform:none}
       </div>
       <div class="hero-polaroid animate-floaty" style="--fl-rot:6deg;animation-delay:1.4s">
         <div class="kb">
-          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80"
-               data-fallback="https://image.qwenlm.ai/generated-images/cdd79494-2711-43df-8c8b-cf8b6f41f257/_result.png"
-               alt="Свежие круассаны на деревянном столе" loading="lazy">
+          <img src="photos/croissant.jpg" data-ph="Круассаны"
+               alt="Свежие круассаны на тарелке" loading="lazy">
         </div>
         <p>круассаны к завтраку</p>
       </div>
@@ -576,7 +591,7 @@ body.cart-open .drawer{transform:none}
       <div class="reveal" data-reveal-delay="150">
         <p style="display:flex;align-items:center;gap:10px;font-size:.85rem;font-weight:700;color:var(--caramel-700)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2.5"/><circle cx="12" cy="13.5" r="3.5"/><path d="m8.5 7 1.2-2.5h4.6L15.5 7"/></svg>
-          В каждой карточке — 3 живых кадра
+          В каждой карточке — 3 фото
         </p>
       </div>
     </div>
@@ -829,63 +844,59 @@ body.cart-open .drawer{transform:none}
 <script>
 /* ============================================================
    SweetMoment · JavaScript (без библиотек)
-   Модули: данные → утилиты → reveal → шапка → продукция →
-   галерея → корзина → форма → заглушки
+   Модули: данные (фото из photos/) → утилиты → reveal → шапка →
+   продукция → галерея → корзина → форма → заглушки
    ============================================================ */
 (function () {
   "use strict";
 
-  /* ---------- 1. ДАННЫЕ ---------- */
-  var U = function (id) { return "https://images.unsplash.com/" + id + "?auto=format&fit=crop&w=1200&q=80"; };
-  var IMG = {
-    medovik:     "https://image.qwenlm.ai/generated-images/521cf289-e73d-44be-8203-bad0d98de36f/_result.png",
-    cutMedovik:  "https://image.qwenlm.ai/generated-images/ba570dc3-32e6-4591-857a-fd2bc7cdd95f/_result.png",
-    truffle:     "https://image.qwenlm.ai/generated-images/b161882b-38f2-444b-a099-44db2339879f/_result.png",
-    cutTruffle:  "https://image.qwenlm.ai/generated-images/0ddaf8c6-e933-4fd5-b8ac-3dcd123a7cab/_result.png",
-    cutCupcake:  "https://image.qwenlm.ai/generated-images/ea1be722-1fff-485b-a785-d84bf9d25419/_result.png",
-    eclair:      "https://image.qwenlm.ai/generated-images/03a8e2cc-e453-40ff-bb6e-f9c41198cf1a/_result.png",
-    cutEclair:   "https://image.qwenlm.ai/generated-images/7dfac412-ee89-48ed-b2f9-785dd9d8cb00/_result.png",
-    eclairServe: "https://image.qwenlm.ai/generated-images/4a7a9c96-834f-4db5-9bfb-c4b84c7d7381/_result.png",
-    macaronServe:"https://image.qwenlm.ai/generated-images/d3add6da-019c-45e9-88c5-c56c8d166539/_result.png"
-  };
+  /* ---------- 1. ДАННЫЕ ----------
+     Каждый кадр — путь к файлу в папке photos/ и подпись
+     для фирменной заглушки (если файл не найден). */
+  function frames(base, ph, alts) {
+    return [
+      { src: "photos/" + base + "-1.jpg", ph: ph, label: "Общий вид", alt: alts[0] },
+      { src: "photos/" + base + "-2.jpg", ph: ph, label: "В разрезе", alt: alts[1] },
+      { src: "photos/" + base + "-3.jpg", ph: ph, label: "Подача",    alt: alts[2] }
+    ];
+  }
 
-  /* у каждой позиции 3 кадра: общий вид / в разрезе / подача */
   var PRODUCTS = [
     { id: "medovik", name: "Медовик «Девять коржей»", weight: "1 кг · 8–10 порций",
       desc: "Медовые коржи, сметанный крем, карамельная крошка", price: 1690, unit: "₽ / кг", tag: "Хит недели",
-      frames: [
-        { src: IMG.medovik,    fallback: IMG.cutMedovik, label: "Общий вид",  alt: "Медовик целиком на керамической подставке" },
-        { src: IMG.cutMedovik, fallback: IMG.medovik,    label: "В разрезе",  alt: "Тонкие медовые коржи и крем в разрезе" },
-        { src: U("photo-1541783245831-57d6fb0926d3"), fallback: IMG.medovik, label: "Подача", alt: "Кусочек медовика к чаю на вилочке" }
-      ] },
+      frames: frames("medovik", "Медовик", [
+        "Медовик целиком на керамической подставке",
+        "Тонкие медовые коржи и крем в разрезе",
+        "Кусочек медовика к чаю"
+      ]) },
     { id: "truffle", name: "Торт «Шоколадный трюфель»", weight: "1 кг · 8 порций",
       desc: "Бельгийский шоколад 70%, ганаш и вишнёвое конфи", price: 2190, unit: "₽ / кг", tag: "",
-      frames: [
-        { src: IMG.truffle,    fallback: IMG.cutTruffle, label: "Общий вид", alt: "Шоколадный торт с глянцевой глазурью" },
-        { src: IMG.cutTruffle, fallback: IMG.truffle,    label: "В разрезе", alt: "Слои шоколадного бисквита и ганаша в разрезе" },
-        { src: U("photo-1551024506-0bccd828d307"), fallback: IMG.truffle, label: "Подача", alt: "Шоколадный десерт с мороженым в подаче" }
-      ] },
+      frames: frames("truffle", "Трюфель", [
+        "Шоколадный торт с глянцевой глазурью",
+        "Слои шоколадного бисквита и ганаша в разрезе",
+        "Шоколадный торт с мороженым в подаче"
+      ]) },
     { id: "cupcakes", name: "Капкейки ваниль–малина", weight: "набор 6 шт",
       desc: "Воздушный бисквит, сливочный крем, ягода внутри", price: 990, unit: "₽ / набор", tag: "",
-      frames: [
-        { src: U("photo-1587668178277-295251f900ce"), fallback: IMG.cutCupcake, label: "Общий вид", alt: "Ванильные капкейки со сливочным кремом" },
-        { src: IMG.cutCupcake, fallback: U("photo-1587668178277-295251f900ce"), label: "В разрезе", alt: "Капкейк в разрезе с малиновым конфи" },
-        { src: U("photo-1486427944299-d1955d23e34d"), fallback: IMG.cutCupcake, label: "Подача", alt: "Капкейки на праздничном столе" }
-      ] },
+      frames: frames("cupcakes", "Капкейки", [
+        "Ванильные капкейки со сливочным кремом",
+        "Капкейк в разрезе с малиновым конфи",
+        "Капкейки на праздничной подставке"
+      ]) },
     { id: "eclairs", name: "Эклеры карамель–фундук", weight: "набор 5 шт",
       desc: "Заварное тесто, крем на сливках, солёная карамель", price: 890, unit: "₽ / набор", tag: "Новинка",
-      frames: [
-        { src: IMG.eclair,      fallback: IMG.cutEclair, label: "Общий вид", alt: "Карамельные эклеры на блюде" },
-        { src: IMG.cutEclair,   fallback: IMG.eclair,    label: "В разрезе", alt: "Эклер в разрезе: заварной крем и карамель" },
-        { src: IMG.eclairServe, fallback: IMG.eclair,    label: "Подача",    alt: "Эклеры с карамельным соусом и мороженым" }
-      ] },
+      frames: frames("eclairs", "Эклеры", [
+        "Карамельные эклеры на блюде",
+        "Эклер в разрезе: заварной крем и карамель",
+        "Эклеры с карамельным соусом и мороженым"
+      ]) },
     { id: "macarons", name: "Макаронс ассорти", weight: "набор 9 шт",
       desc: "Миндальная мука и шесть авторских вкусов", price: 790, unit: "₽ / набор", tag: "",
-      frames: [
-        { src: U("photo-1569864358642-9d1684040f43"), fallback: IMG.macaronServe, label: "Общий вид", alt: "Разноцветные макаронс крупным планом" },
-        { src: U("photo-1558326567-98ae2405596b"),    fallback: IMG.macaronServe, label: "В разрезе", alt: "Шоколадные макаронс с начинкой" },
-        { src: IMG.macaronServe, fallback: U("photo-1569864358642-9d1684040f43"), label: "Подача", alt: "Макаронс на этажерке к чаю" }
-      ] }
+      frames: frames("macarons", "Макаронс", [
+        "Разноцветные макаронс на этажерке",
+        "Половинки макаронс с начинкой",
+        "Макаронс к чаю на блюдце"
+      ]) }
   ];
 
   var REVIEWS = [
@@ -917,6 +928,43 @@ body.cart-open .drawer{transform:none}
     star:  '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.6 5.5 6 .7-4.4 4.1 1.2 5.9-5.4-3-5.4 3 1.2-5.9L3.4 9l6-.7Z"/></svg>'
   };
 
+  /* Фирменная заглушка: если файла в photos/ нет, вместо битой
+     картинки показываем нарисованный SVG в палитре сайта */
+  function placeholder(name) {
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400">' +
+      '<defs><radialGradient id="g" cx="50%" cy="40%" r="80%">' +
+      '<stop offset="0%" stop-color="#FBF0DA"/><stop offset="100%" stop-color="#EFD9B2"/>' +
+      '</radialGradient></defs>' +
+      '<rect width="500" height="400" fill="url(#g)"/>' +
+      '<path d="M96 400V160a154 154 0 0 1 308 0v240Z" fill="#F4E5C6" opacity=".55"/>' +
+      '<ellipse cx="250" cy="298" rx="120" ry="16" fill="rgba(54,33,19,.10)"/>' +
+      '<path d="M196 298l10-70h88l10 70Z" fill="#E3BE83"/>' +
+      '<path d="M216 232l-3 62M240 230l-1 66M262 230l1 66M284 232l3 62" stroke="rgba(255,253,248,.5)" stroke-width="6" stroke-linecap="round"/>' +
+      '<ellipse cx="250" cy="222" rx="56" ry="22" fill="#FFF6E4"/>' +
+      '<ellipse cx="250" cy="200" rx="44" ry="18" fill="#FFF6E4"/>' +
+      '<ellipse cx="250" cy="182" rx="30" ry="14" fill="#FFF6E4"/>' +
+      '<circle cx="250" cy="166" r="10" fill="#C25538"/>' +
+      '<path d="M250 156q4-8 10-10" stroke="#6F8A4F" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<path d="M128 150Q128 158 136 158Q128 158 128 166Q128 158 120 158Q128 158 128 150Z" fill="#D5A25C" opacity=".85"/>' +
+      '<path d="M376 176Q376 184 384 184Q376 184 376 192Q376 184 368 184Q376 184 376 176Z" fill="#DE7A54" opacity=".85"/>' +
+      '<text x="250" y="352" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="22" font-weight="bold" fill="#885625">' + name + '</text>' +
+      '</svg>';
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  }
+
+  /* подписываем все img[data-ph] на замену src при ошибке 404 */
+  function wireImages(root) {
+    $$("img[data-ph]", root || document).forEach(function (img) {
+      if (img.dataset.wired) return;
+      img.dataset.wired = "1";
+      img.addEventListener("error", function h() {
+        img.removeEventListener("error", h);
+        var ph = placeholder(img.getAttribute("data-ph") || "SweetMoment");
+        if (img.src !== ph) img.src = ph;
+      });
+    });
+  }
+
   /* тосты-уведомления */
   function toast(msg, kind) {
     var box = $("#toasts");
@@ -926,18 +974,6 @@ body.cart-open .drawer{transform:none}
     box.appendChild(el);
     setTimeout(function () { el.classList.add("out"); }, 3400);
     setTimeout(function () { el.remove(); }, 3800);
-  }
-
-  /* страховка от битых картинок: подменяем src на запасной */
-  function wireImages(root) {
-    $$("img[data-fallback]", root || document).forEach(function (img) {
-      if (img.dataset.wired) return;
-      img.dataset.wired = "1";
-      img.addEventListener("error", function h() {
-        img.removeEventListener("error", h);
-        if (img.dataset.fallback && img.src !== img.dataset.fallback) img.src = img.dataset.fallback;
-      });
-    });
   }
 
   /* блокировка прокрутки body (со счётчиком для стека модалок) */
@@ -999,7 +1035,7 @@ body.cart-open .drawer{transform:none}
     });
   }
 
-  /* ---------- 5. БЕГУЩАЯ СТРОКА + ОТЗЫВЫ + ЗВЁЗДЫ ---------- */
+  /* ---------- 5. БЕГУЩАЯ СТРОКА + ОТЗЫВЫ ---------- */
   function initTicker() {
     var items = ["Медовик","Тирамису","Эклеры","Макаронс","Капкейки","Чизкейк","Прага","Павлова","Круассаны","Тарты"];
     var half = items.map(function (t) {
@@ -1008,7 +1044,7 @@ body.cart-open .drawer{transform:none}
     $("#tickerTrack").innerHTML = '<div class="ticker-half">' + half + '</div><div class="ticker-half">' + half + "</div>";
   }
 
-  function starRow(rating, cls) {
+  function starRow(rating) {
     var s = "";
     for (var i = 1; i <= 5; i++) {
       s += '<span class="' + (i <= rating ? "star-on" : "star-off") + '" style="display:inline-flex">' + IC.star + "</span>";
@@ -1029,7 +1065,6 @@ body.cart-open .drawer{transform:none}
         "<span><b>" + r.name + "</b><small>" + r.meta + "</small></span>" +
         "</figcaption></figure>";
     }).join("");
-    /* повторно наблюдаем новые .reveal */
     initReveal();
   }
 
@@ -1037,9 +1072,10 @@ body.cart-open .drawer{transform:none}
   function renderProducts() {
     var grid = $("#productGrid");
     var cards = PRODUCTS.map(function (p) {
+      var f0 = p.frames[0];
       return '<article class="card reveal">' +
         '<button class="card-media" data-gallery="' + p.id + '" aria-label="Открыть галерею: ' + p.name + ', 3 фото">' +
-        '<img src="' + p.frames[0].src + '" data-fallback="' + p.frames[0].fallback + '" alt="' + p.frames[0].alt + '" loading="lazy">' +
+        '<img src="' + f0.src + '" data-ph="' + f0.ph + '" alt="' + f0.alt + '" loading="lazy">' +
         (p.tag ? '<span class="card-tag">' + p.tag + "</span>" : "") +
         '<span class="card-zoom">' + IC.camera + " 3 фото</span>" +
         "</button>" +
@@ -1072,7 +1108,6 @@ body.cart-open .drawer{transform:none}
       var a = e.target.closest("[data-add]");
       if (a) {
         addToCart(a.getAttribute("data-add"));
-        /* микро-отклик: кнопка на секунду становится «Добавлено ✓» */
         var orig = a.innerHTML;
         a.classList.add("added");
         a.innerHTML = IC.check + " Добавлено";
@@ -1087,16 +1122,15 @@ body.cart-open .drawer{transform:none}
 
   function renderFrame() {
     var p = gal.product, f = p.frames[gal.index];
-    /* старый кадр убираем, новый вставляем с анимацией направления */
     var old = stage.querySelector(".frame");
     if (old) old.remove();
     var wrap = document.createElement("div");
     wrap.className = "frame " + (gal.dir >= 0 ? "frame-in-r" : "frame-in-l");
-    wrap.innerHTML = '<img src="' + f.src + '" data-fallback="' + f.fallback + '" alt="' + f.alt + '">';
+    wrap.innerHTML = '<img src="' + f.src + '" data-ph="' + f.ph + '" alt="' + f.alt + '">';
     stage.insertBefore(wrap, stage.firstChild);
     wireImages(wrap);
 
-    /* скрытая предзагрузка остальных кадров */
+    /* предзагрузка остальных кадров */
     p.frames.forEach(function (fr, i) { if (i !== gal.index) { var im = new Image(); im.src = fr.src; } });
 
     $("#galleryTitle").textContent = p.name;
@@ -1186,14 +1220,12 @@ body.cart-open .drawer{transform:none}
   function renderCart() {
     var t = cartTotals();
 
-    /* счётчик в шапке + «бамп» */
     var badge = $("#cartCount");
     badge.hidden = t.count === 0;
     badge.textContent = t.count;
     if (t.count > 0) { badge.classList.remove("bump"); void badge.offsetWidth; badge.classList.add("bump"); }
     $("#drawerCount").textContent = "· " + t.count + " шт";
 
-    /* список в шторке */
     var list = $("#drawerList");
     if (cart.length === 0) {
       list.innerHTML = '<div class="cart-empty"><span class="ico">' + IC.cart + "</span>" +
@@ -1203,8 +1235,9 @@ body.cart-open .drawer{transform:none}
     } else {
       list.innerHTML = "<ul>" + cart.map(function (e) {
         var p = productById(e.id);
+        var f0 = p.frames[0];
         return "<li>" +
-          '<img src="' + p.frames[0].src + '" data-fallback="' + p.frames[0].fallback + '" alt="' + p.frames[0].alt + '">' +
+          '<img src="' + f0.src + '" data-ph="' + f0.ph + '" alt="' + f0.alt + '">' +
           '<div style="flex:1;min-width:0"><div class="d-top"><p class="d-name">' + p.name + "</p>" +
           '<button class="d-remove" data-remove="' + p.id + '" aria-label="Удалить «' + p.name + '»">' + IC.trash + "</button></div>" +
           '<p class="d-weight">' + p.weight + "</p>" +
@@ -1216,7 +1249,6 @@ body.cart-open .drawer{transform:none}
       wireImages(list);
     }
 
-    /* итог и прогресс до бесплатной доставки */
     $("#drawerTotal").textContent = fmt(t.total) + " ₽";
     $("#shipNote").textContent = t.total === 0 ? "" :
       (t.total >= FREE_DELIVERY ? "Доставка по городу — бесплатно ✓" : "До бесплатной доставки — " + fmt(FREE_DELIVERY - t.total) + " ₽");
@@ -1229,8 +1261,9 @@ body.cart-open .drawer{transform:none}
     } else {
       wrap.innerHTML = '<ul class="summary-list">' + cart.map(function (e) {
         var p = productById(e.id);
+        var f0 = p.frames[0];
         return "<li>" +
-          '<img src="' + p.frames[0].src + '" data-fallback="' + p.frames[0].fallback + '" alt="">' +
+          '<img src="' + f0.src + '" data-ph="' + f0.ph + '" alt="">' +
           '<span class="s-name">' + p.name + "<small>" + e.qty + " × " + fmt(p.price) + " ₽</small></span>" +
           '<span class="s-price">' + fmt(p.price * e.qty) + " ₽</span>" +
           '<button class="s-remove" data-remove="' + p.id + '" aria-label="Убрать «' + p.name + '»">' + IC.trash + "</button></li>";
@@ -1270,7 +1303,8 @@ body.cart-open .drawer{transform:none}
     document.addEventListener("click", function (e) {
       var inc = e.target.closest("[data-inc]"), dec = e.target.closest("[data-dec]"), rem = e.target.closest("[data-remove]");
       if (!inc && !dec && !rem) return;
-      var id = (inc || dec || rem).getAttribute("data-inc") || (inc || dec || rem).getAttribute("data-dec") || (inc || dec || rem).getAttribute("data-remove");
+      var el = inc || dec || rem;
+      var id = el.getAttribute("data-inc") || el.getAttribute("data-dec") || el.getAttribute("data-remove");
       cart.forEach(function (en) {
         if (en.id !== id) return;
         if (inc) en.qty += 1;
@@ -1299,7 +1333,6 @@ body.cart-open .drawer{transform:none}
   }
 
   function initForm() {
-    /* живое снятие ошибки при вводе */
     ["fName", "fPhone"].forEach(function (id) {
       $("#" + id).addEventListener("input", function () {
         this.closest(".field").classList.remove("invalid");
@@ -1314,7 +1347,6 @@ body.cart-open .drawer{transform:none}
         if (first) first.focus();
         return;
       }
-      /* имитация отправки: спиннер → тост → очистка */
       var btn = $("#submitBtn");
       btn.disabled = true;
       $("#submitLabel").innerHTML = '<span class="spinner" style="display:inline-block;vertical-align:-4px;margin-right:8px"></span>Отправляем…';
@@ -1346,10 +1378,13 @@ body.cart-open .drawer{transform:none}
     initCart();
     initForm();
     initStubs();
-    wireImages(document);
+    wireImages(document); /* hero.jpg, croissant.jpg и всё остальное */
     initReveal();
   });
 })();
 </script>
 </body>
 </html>
+
+
++++ index-photos.html (修改后)
