@@ -18,7 +18,7 @@
 
   const makeFrames = (base, alt) => [
     {src:`photos/${base}-1.jpg`, label:"Общий вид", alt:`${alt}: общий вид`},
-    {src:`photos/${base}-2.jpg`, label:"В разрезе", alt:`${alt}: в разрезе`},
+    {src:`photos/${base}-2.jpg`, label:"Детали", alt:`${alt}: в разрезе`},
     {src:`photos/${base}-3.jpg`, label:"Подача", alt:`${alt}: подача`}
   ];
 
